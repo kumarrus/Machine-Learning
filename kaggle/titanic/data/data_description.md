@@ -41,7 +41,7 @@ We also include gender_submission.csv, a set of predictions that assume all and 
 
 **sibsp:** The dataset defines family relations in this way...
 Sibling = brother, sister, stepbrother, stepsister
-Spouse = husband, wife (mistresses and fianc�s were ignored)
+Spouse = husband, wife (mistresses and fiancés were ignored)
 
 **parch:** The dataset defines family relations in this way...
 Parent = mother, father
