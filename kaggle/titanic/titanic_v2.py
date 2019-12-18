@@ -87,8 +87,6 @@ def transformRelatives(dataframe, y=None):
     dataframe['LargeFamily'] = dataframe['Relatives'].map(lambda r: 1 if r > 3 else 0)
     # dataframe.drop(['SibSp', 'Parch'], axis=1, inplace=True)
 
-    dataframe['Fare_Per_Person'] = dataframe['Fare'] / (dataframe['Relatives'] + 1)
-
 def filterAndComposeFeatures(dataframe, y=None):
     # Columns with invalid data:
     # Age         177
@@ -124,13 +122,19 @@ def showFeatureImportance(pipeline, cat_features, num_features, name=''):
 # Too many NaNs in Cabin data to be useful (687 nulls)
 unused_features = ['Name', 'Cabin', 'Ticket']
 
-numerical_features = ['Age', 'Fare', 'Fare_Per_Person']
+numerical_features = ['Age', 'Fare']
 numerical_transformer = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='median')),
     ('scaler', StandardScaler())])
 
 categorical_features = ['Embarked', 'Sex', 'Pclass', 'Salutation', 'Deck']
 categorical_transformer = Pipeline(steps=[
+    # ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))])
+
+label_features = ['Embarked', 'Sex', 'Pclass', 'Salutation', 'Deck']
+label_transformer = Pipeline(steps=[
     # ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
     ('imputer', SimpleImputer(strategy='most_frequent')),
     ('onehot', OneHotEncoder(handle_unknown='ignore'))])
